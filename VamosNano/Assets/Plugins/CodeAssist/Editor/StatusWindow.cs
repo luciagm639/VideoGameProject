@@ -5,11 +5,14 @@ using UnityEngine;
 using UnityEditor;
 
 
+#nullable enable
+
+
 namespace Meryel.UnityCodeAssist.Editor
 {
     public class StatusWindow : EditorWindow
     {
-        GUIStyle styleLabel;
+        GUIStyle? styleLabel;
 
         public static void Display()
         {
@@ -17,7 +20,7 @@ namespace Meryel.UnityCodeAssist.Editor
             var window = GetWindow<StatusWindow>();
             window.Show();
 
-            NetMQInitializer.Publisher.SendConnectionInfo();
+            NetMQInitializer.Publisher?.SendConnectionInfo();
 
             Serilog.Log.Debug("Displaying status window");
 
@@ -34,22 +37,19 @@ namespace Meryel.UnityCodeAssist.Editor
 
         private void OnGUI()
         {
-            var hasAnyClient = NetMQInitializer.Publisher.clients.Any();
+            var hasAnyClient = NetMQInitializer.Publisher?.clients.Any() == true;
 
-            if (styleLabel == null)
+            styleLabel ??= new GUIStyle(GUI.skin.label)
             {
-                styleLabel = new GUIStyle(GUI.skin.label)
-                {
-                    wordWrap = true,
-                    alignment = TextAnchor.MiddleLeft,
-                };
-            }
+                wordWrap = true,
+                alignment = TextAnchor.MiddleLeft,
+            };
 
             if (hasAnyClient)
             {
                 EditorGUILayout.LabelField($"Code Assist is working!", styleLabel, GUILayout.ExpandWidth(true));
 
-                foreach (var client in NetMQInitializer.Publisher.clients)
+                foreach (var client in NetMQInitializer.Publisher!.clients)
                 {
                     EditorGUILayout.LabelField($"Connected to {client.ContactInfo}", styleLabel, GUILayout.ExpandWidth(true));
                 }

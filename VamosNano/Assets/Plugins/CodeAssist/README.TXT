@@ -20,10 +20,13 @@ https://github.com/merryyellow/Unity-Code-Assist
 Asset Store:
 http://u3d.as/2N2H
 
+Visual Studio Marketplace:
+https://marketplace.visualstudio.com/items?itemName=MerryYellow.UCA-Lite
+
 
 Restrictions:
-* Unity 2020.3 or newer.
-* Visual Studio 2022 or newer. Does not work with Visual Studio Code, Visual Studio for Mac, Rider or any other IDE or text editor.
+* Unity 2020.3 and newer.
+* Visual Studio 2022. Does not work with Visual Studio Code, Visual Studio for Mac, Rider or any other IDE or text editor.
 
 
 How to Setup:

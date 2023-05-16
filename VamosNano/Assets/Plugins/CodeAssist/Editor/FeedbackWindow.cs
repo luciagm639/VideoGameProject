@@ -4,12 +4,15 @@ using UnityEngine;
 using UnityEditor;
 
 
+#nullable enable
+
+
 namespace Meryel.UnityCodeAssist.Editor
 {
     public class FeedbackWindow : EditorWindow
     {
 
-        GUIStyle styleLabel;
+        GUIStyle? styleLabel;
 
         public static void Display()
         {
@@ -41,14 +44,11 @@ namespace Meryel.UnityCodeAssist.Editor
             if (!string.IsNullOrEmpty(Logger.ELogger.VsInternalLog))
                 logContent += Logger.ELogger.VsInternalLog;
 
-            if (styleLabel == null)
+            styleLabel ??= new GUIStyle(GUI.skin.label)
             {
-                styleLabel = new GUIStyle(GUI.skin.label)
-                {
-                    wordWrap = true,
-                    alignment = TextAnchor.MiddleCenter,
-                };
-            }
+                wordWrap = true,
+                alignment = TextAnchor.MiddleCenter,
+            };
             
             if (errorCount > 0)
                 EditorGUILayout.LabelField($"{errorCount} error(s) found in logs. Please submit a feedback (via e-mail, Discord or GitHub) with the logs if possible.", styleLabel, GUILayout.ExpandWidth(true));

@@ -5,11 +5,14 @@ using UnityEngine;
 using UnityEditor;
 
 
+#nullable enable
+
+
 namespace Meryel.UnityCodeAssist.Editor
 {
     public class Assister
     {
-        public const string Version = "1.0.0.16";
+        public const string Version = "1.0.0.21";
 
 #if MERYEL_UCA_LITE_VERSION
         public const string Title = "Code Assist Lite";
@@ -63,14 +66,14 @@ namespace Meryel.UnityCodeAssist.Editor
 
         static IEnumerator SyncAux()
         {
-            var clientCount = NetMQInitializer.Publisher.clients.Count;
-            NetMQInitializer.Publisher.SendConnect();
+            var clientCount = NetMQInitializer.Publisher?.clients.Count ?? 0;
+            NetMQInitializer.Publisher?.SendConnect();
             Serilog.Log.Information("Code Assist is looking for more IDEs to connect to...");
 
             //yield return new WaitForSeconds(3);
             yield return new EditorCoroutines.EditorWaitForSeconds(3);
 
-            var newClientCount = NetMQInitializer.Publisher.clients.Count;
+            var newClientCount = NetMQInitializer.Publisher?.clients.Count ?? 0;
 
             var dif = newClientCount - clientCount;
 
