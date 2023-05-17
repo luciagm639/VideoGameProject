@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 public class Punto
 {
@@ -56,7 +57,7 @@ public class Punto
         }
         else
         {
-            angulo = Math.Acos((a * a + b * b - c * c) / (2 * a * b));
+            angulo = GetPointSide(punto3,  punto1,  punto2) * Math.Acos((a * a + b * b - c * c) / (2 * a * b));
         }
 
         return (float)((float)angulo * (180 / Math.PI));
@@ -85,6 +86,20 @@ public class Punto
             anguloGiro += Punto.CalcularAngulo(puntos[i - 1], puntos[i], puntos[i + 1]);
         }
         return anguloGiro / (puntosSize - 2);
+    }
+
+    private static float GetPointSide(Punto point, Punto lineStart, Punto lineEnd)
+    {
+        float crossProduct = (lineEnd.getCoordenadaX() - lineStart.getCoordenadaX()) * (point.getCoordenadaZ() - lineStart.getCoordenadaZ()) - (lineEnd.getCoordenadaZ() - lineStart.getCoordenadaZ()) * (point.getCoordenadaX() - lineStart.getCoordenadaX());
+
+        if (crossProduct > 0)
+        {
+            return -1;
+        }
+        else 
+        {
+            return 1;
+        }
     }
 
     public override string ToString()

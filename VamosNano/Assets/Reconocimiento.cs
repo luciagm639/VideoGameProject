@@ -45,19 +45,6 @@ public class Reconocimiento : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    private void FixedUpdate()
-    {
-        Rigidbody rb = GetComponent<Rigidbody>();
-        rb.AddForce(400,0,-1000);
-
-    }
-
     List<Seccion> partirEnSecciones(List<Punto> puntos)
     {
         List<Seccion> secciones = new List<Seccion>();

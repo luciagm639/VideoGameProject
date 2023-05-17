@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Seccion
 {
@@ -57,4 +58,53 @@ public class Seccion
             + " \n Ángulo de giro: " + getAnguloGiro() + " }";
         return ret;
     }
+
+    public bool perteneceASeccion(Vector2 punto)
+    {
+        Vector2 inicioSeccionV = new Vector2(inicioSeccion.getCoordenadaX(), inicioSeccion.getCoordenadaZ());
+        Vector2 puntoMedioSeccionV = new Vector2(puntoMedioSeccion.getCoordenadaX(), puntoMedioSeccion.getCoordenadaZ());
+        Vector2 finalSeccionV = new Vector2(finalSeccion.getCoordenadaX(), finalSeccion.getCoordenadaZ());
+
+        Vector2 parallelEnd1;
+        Vector2 parallelEnd2;
+
+        GetParallelLines(inicioSeccionV, puntoMedioSeccionV, out parallelEnd1, out parallelEnd2);
+
+        if(IsPointInParallelSection(punto, inicioSeccionV, parallelEnd1, puntoMedioSeccionV, parallelEnd2))
+        {
+            return true;
+        }else
+        {
+            GetParallelLines(puntoMedioSeccionV, finalSeccionV, out parallelEnd1, out parallelEnd2);
+
+            if (IsPointInParallelSection(punto, puntoMedioSeccionV, parallelEnd1, finalSeccionV, parallelEnd2))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
+    public static void GetParallelLines(Vector2 point1, Vector2 point2, out Vector2 parallelEnd1, out Vector2 parallelEnd2)
+    {
+        Vector2 offset = (point2 - point1);
+        Vector2 lineDirection = new Vector2(-offset.y, offset.x).normalized;
+
+        parallelEnd1 = point1 + lineDirection;
+        parallelEnd2 = point2 + lineDirection;
+    }
+
+
+    public static bool IsPointInParallelSection(Vector2 point, Vector2 rectStart1, Vector2 rectEnd1, Vector2 rectStart2, Vector2 rectEnd2)
+    {
+
+        float crossProduct1 = (point.x - rectStart1.x) * (rectEnd1.y - rectStart1.y) - (point.y - rectStart1.y) * (rectEnd1.x - rectStart1.x);
+        float crossProduct2 = (point.x - rectStart2.x) * (rectEnd2.y - rectStart2.y) - (point.y - rectStart2.y) * (rectEnd2.x - rectStart2.x);
+
+        return (crossProduct1 >= 0 && crossProduct2 <= 0) || (crossProduct1 <= 0 && crossProduct2 >= 0);
+    }
+
 }
