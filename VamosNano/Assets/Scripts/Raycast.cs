@@ -5,34 +5,47 @@ using UnityEngine;
 public class Raycast : MonoBehaviour
 {
     public int identificador;
-    private NavMesh scriptNavMesh;
+
+    public GameObject objetoConNavMesh;
+    private NavMeshObjectScript navMeshScript;
+
+    private bool puedoRegistrarPunto;
 
     // Start is called before the first frame update
     void Start()
     {
-        scriptNavMesh = this.gameObject.GetComponentInParent<NavMesh>();
+        puedoRegistrarPunto = true;
+        navMeshScript = objetoConNavMesh.GetComponent<NavMeshObjectScript>();
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity))
         {
-            print("ESTOY DETECTANDO PUNTOS");
             Debug.DrawRay(transform.position, transform.forward * hit.distance, Color.green);
             string tag = hit.collider.gameObject.tag;
-            Vector3[] puntosDetectados = scriptNavMesh.GetPuntosDetectados();
 
-            if ((tag.Equals("carreteraExterior") || tag.Equals("bordeCarretera") || tag.Equals("carreteraInterior")) 
-                && puntosDetectados[identificador].Equals(Vector3.negativeInfinity)) {
-                Vector3 puntoDetectado = hit.collider.transform.position;
-                puntosDetectados[identificador] = puntoDetectado;
+            Vector3 puntoEnArray = navMeshScript.GetPosicionArray(identificador);
 
-            } else if (puntosDetectados[identificador].Equals(Vector3.negativeInfinity))
+            if (puntoEnArray.Equals(Vector3.negativeInfinity) && puedoRegistrarPunto)
             {
-                puntosDetectados[identificador] = Vector3.positiveInfinity;
+                if (tag.Equals("carreteraExterior") || tag.Equals("bordeCarretera") || tag.Equals("carreteraInterior"))
+                {
+                    Vector3 puntoDetectado = hit.collider.transform.position;
+                    navMeshScript.SetPosicionArray(puntoDetectado, identificador);
+                } else
+                {
+                    navMeshScript.SetPosicionArray(Vector3.positiveInfinity, identificador);
+                }
+                puedoRegistrarPunto = false;
             }
         }
+    }
+
+    public void SetPuedoRegistrarPunto(bool puedo)
+    {
+        puedoRegistrarPunto = puedo;
     }
 }
