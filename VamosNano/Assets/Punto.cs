@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 public class Punto
 {
-    float coordenadaX;
-    float coordenadaZ;
+    private float coordenadaX;
+    private float coordenadaZ;
 
     /// <summary>
     /// Constructor de Punto. Está representado en dos dimensiones, por lo que la coordenada 'Y' no se tiene en cuenta.
@@ -25,16 +25,6 @@ public class Punto
     public float getCoordenadaZ()
     {
         return coordenadaZ;
-    }
-
-    public void setCoordenadaX(float coordenadaX)
-    {
-        this.coordenadaX = coordenadaX;
-    }
-
-    public void setCoordenadaZ(float coordenadaZ)
-    {
-        this.coordenadaZ = coordenadaZ;
     }
 
     /// <summary>

@@ -48,14 +48,6 @@ public class Seccion
 
     public float getAnguloGiro() { return anguloGiro; }
 
-    public void setInicioSeccion(Punto inicioSeccion) { this.inicioSeccion = inicioSeccion; }
-
-    public void setPuntoMedioSeccion(Punto puntoMedioSeccion) { this.puntoMedioSeccion = puntoMedioSeccion; }
-
-    public void setFinalSeccion(Punto finalSeccion) { this.finalSeccion = finalSeccion; }
-
-    public void setAnguloGiro(float anguloGiro) { this.anguloGiro = anguloGiro; }
-
     public override string ToString()
     {
         string ret = "Sección = {"

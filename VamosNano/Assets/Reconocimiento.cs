@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class Reconocimiento : MonoBehaviour
 {
+
+    private bool girado = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +20,7 @@ public class Reconocimiento : MonoBehaviour
         puntos.Add(new Punto(0.68f, 2.66f));
         puntos.Add(new Punto(1.64f, 3));
         puntos.Add(new Punto(2.82f, 3.14f));
-        puntos.Add(new Punto(4,3));
+        puntos.Add(new Punto(4, 3));
         puntos.Add(new Punto(4.86f, 2.52f));
         puntos.Add(new Punto(5.52f, 1.98f));
         puntos.Add(new Punto(6.18f, 1.5f));
@@ -46,6 +48,13 @@ public class Reconocimiento : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+    }
+
+    private void FixedUpdate()
+    {
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.AddForce(400,0,-1000);
 
     }
 
@@ -96,7 +105,7 @@ public class Reconocimiento : MonoBehaviour
             }
         }
         //Guardamos el último punto (en principio lo guardo en la última sección)
-        puntosSeccion.Add(puntos[puntosSize-1]);
+        puntosSeccion.Add(puntos[puntosSize - 1]);
         //Guardamos la última sección
         secciones.Add(new Seccion(puntosSeccion, anguloGiroSeccion));
 
